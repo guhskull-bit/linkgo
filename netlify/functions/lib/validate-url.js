@@ -1,8 +1,12 @@
 export function normalizeUrl(value) {
-  const candidate = String(value || '').trim();
+  let candidate = String(value || '').trim();
 
   if (!candidate) {
     throw new Error('Informe um link para continuar.');
+  }
+
+  if (!/^[a-z][a-z0-9+.-]*:\/\//i.test(candidate)) {
+    candidate = `https://${candidate}`;
   }
 
   let parsedUrl;
@@ -10,7 +14,7 @@ export function normalizeUrl(value) {
   try {
     parsedUrl = new URL(candidate);
   } catch {
-    throw new Error('Use uma URL completa, como https://exemplo.com.');
+    throw new Error('Use um link válido, como google.com ou https://exemplo.com.');
   }
 
   if (!['http:', 'https:'].includes(parsedUrl.protocol)) {

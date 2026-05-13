@@ -25,7 +25,6 @@ export function getSiteOrigin(event) {
   const forwardedProtocol = event.headers['x-forwarded-proto'];
   const protocol = forwardedProtocol || (event.headers.host?.includes('localhost') ? 'http' : 'https');
   const host = event.headers.host;
-  const configuredUrl = process.env.URL || process.env.DEPLOY_PRIME_URL;
 
-  return (configuredUrl || `${protocol}://${host}`).replace(/\/$/, '');
+  return `${protocol}://${host}`.replace(/\/$/, '');
 }
