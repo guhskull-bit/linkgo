@@ -1,0 +1,25 @@
+{
+  "name": "link-qr-shortener",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/local-server.mjs",
+    "dev:netlify": "node scripts/netlify-dev.mjs",
+    "dev:vite": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@netlify/blobs": "^9.1.2",
+    "lucide-react": "^0.475.0",
+    "qrcode": "^1.5.4",
+    "qrcode.react": "^4.2.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "vite": "^6.1.0",
+    "netlify-cli": "^26.0.1"
+  }
+}
