@@ -5,6 +5,10 @@ import path from 'node:path';
 const localStorePath = path.join(process.cwd(), '.netlify-local', 'links.json');
 let blobStore;
 
+function isLocalRuntime() {
+  return process.env.CONTEXT === 'dev' || process.env.NETLIFY_DEV === 'true';
+}
+
 function getBlobLinkStore() {
   if (!blobStore) {
     blobStore = getStore({
@@ -37,7 +41,7 @@ async function withBlobStore(operation) {
       value: await operation(getBlobLinkStore()),
     };
   } catch (error) {
-    if (process.env.NETLIFY === 'true' && process.env.CONTEXT !== 'dev') {
+    if (!isLocalRuntime()) {
       throw error;
     }
 
