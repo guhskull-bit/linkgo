@@ -32,21 +32,27 @@ async function writeLocalStore(store) {
 
 async function withBlobStore(operation) {
   try {
-    return await operation(getBlobLinkStore());
+    return {
+      ok: true,
+      value: await operation(getBlobLinkStore()),
+    };
   } catch (error) {
     if (process.env.NETLIFY === 'true' && process.env.CONTEXT !== 'dev') {
       throw error;
     }
 
-    return undefined;
+    return {
+      ok: false,
+      value: undefined,
+    };
   }
 }
 
 export async function getLink(slug) {
   const blobRecord = await withBlobStore((store) => store.get(slug, { type: 'json' }));
 
-  if (blobRecord) {
-    return blobRecord;
+  if (blobRecord.ok && blobRecord.value) {
+    return blobRecord.value;
   }
 
   const localStore = await readLocalStore();
@@ -56,7 +62,7 @@ export async function getLink(slug) {
 export async function saveLink(record) {
   const savedInBlob = await withBlobStore((store) => store.setJSON(record.slug, record));
 
-  if (savedInBlob !== undefined) {
+  if (savedInBlob.ok) {
     return record;
   }
 
