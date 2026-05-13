@@ -13,7 +13,6 @@ function getBlobLinkStore() {
   if (!blobStore) {
     blobStore = getStore({
       name: 'short-links',
-      consistency: 'strong',
     });
   }
 
