@@ -8,12 +8,10 @@ import {
   Link2,
   Loader2,
   QrCode,
-  WandSparkles,
 } from 'lucide-react';
 
 const initialForm = {
   url: '',
-  customAlias: '',
 };
 
 function App() {
@@ -48,7 +46,6 @@ function App() {
         },
         body: JSON.stringify({
           url: form.url.trim(),
-          customAlias: form.customAlias.trim() || undefined,
         }),
       });
 
@@ -109,7 +106,7 @@ function App() {
             <QrCode size={22} aria-hidden="true" />
             <div>
               <h2>Novo link</h2>
-              <p>Cole uma URL completa e escolha um apelido opcional.</p>
+              <p>Cole qualquer URL e receba um link curto com QR code.</p>
             </div>
           </div>
 
@@ -124,20 +121,6 @@ function App() {
                 type="url"
                 inputMode="url"
                 required
-              />
-            </div>
-          </label>
-
-          <label className="field">
-            <span>Apelido personalizado</span>
-            <div className="input-row">
-              <WandSparkles size={19} aria-hidden="true" />
-              <input
-                value={form.customAlias}
-                onChange={(event) => updateField('customAlias', event.target.value)}
-                placeholder="campanha-maio"
-                pattern="[a-zA-Z0-9_-]{3,48}"
-                title="Use de 3 a 48 caracteres: letras, números, hífen ou underline."
               />
             </div>
           </label>

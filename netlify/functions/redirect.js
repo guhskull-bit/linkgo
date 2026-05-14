@@ -1,5 +1,3 @@
-import { incrementClicks } from './lib/links-store.js';
-
 function notFoundPage(slug) {
   const safeSlug = String(slug || '').replace(/[<>&"]/g, '');
 
@@ -57,30 +55,9 @@ function notFoundPage(slug) {
 export const handler = async (event) => {
   const slug = event.queryStringParameters?.slug || event.path.split('/').filter(Boolean).pop();
 
-  if (!slug) {
-    return {
-      statusCode: 400,
-      headers: { 'Content-Type': 'text/html; charset=utf-8' },
-      body: notFoundPage(),
-    };
-  }
-
-  const record = await incrementClicks(slug);
-
-  if (!record) {
-    return {
-      statusCode: 404,
-      headers: { 'Content-Type': 'text/html; charset=utf-8' },
-      body: notFoundPage(slug),
-    };
-  }
-
   return {
-    statusCode: 302,
-    headers: {
-      'Cache-Control': 'no-store',
-      Location: record.originalUrl,
-    },
-    body: '',
+    statusCode: slug ? 404 : 400,
+    headers: { 'Content-Type': 'text/html; charset=utf-8' },
+    body: notFoundPage(slug),
   };
 };
